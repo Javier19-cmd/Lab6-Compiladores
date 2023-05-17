@@ -1,0 +1,223 @@
+# def aumentar_gramatica(grammar):
+#     """
+#     Aumenta la gramática agregando un símbolo de inicio adicional y una nueva producción.
+#     grammar: lista de producciones de la gramática
+#     Retorna: la gramática aumentada y el nuevo símbolo de inicio
+#     """
+#     new_start = grammar[0][0] + "'"
+#     new_prod = (new_start, grammar[0][0])
+#     return (grammar + [new_prod], new_start)
+
+# def cerradura(I, grammar):
+#     """
+#     Construye la clausura de un conjunto de elementos.
+#     I: conjunto de elementos
+#     grammar: lista de producciones de la gramática
+#     Retorna: conjunto de elementos de la clausura
+#     """
+#     J = set(I)
+#     added = True
+#     while added:
+#         added = False
+#         new_elements = set()
+#         for prod, dot_pos in J:
+#             if dot_pos < len(prod) and prod[dot_pos].isupper():
+#                 # símbolo siguiente al punto es un no terminal
+#                 for new_prod in grammar:
+#                     if new_prod[0] == prod[dot_pos]:
+#                         # agregar producción con punto al principio
+#                         new_elem = (new_prod, 0)
+#                         if new_elem not in J:
+#                             new_elements.add(new_elem)
+#                             added = True
+#         J.update(new_elements)
+
+#     return J
+
+# def irA(I, symbol, grammar):
+#     """
+#     Construye el conjunto de elementos alcanzados al aplicar una transición a un conjunto de elementos.
+#     I: conjunto de elementos
+#     symbol: símbolo de la transición
+#     grammar: lista de producciones de la gramática
+#     Retorna: conjunto de elementos resultante de la transición
+#     """
+#     J = set()
+#     if isinstance(I, set) and len(I) == 1 and isinstance(list(I)[0], int):
+#         # verifica si I es un entero
+#         I = {(grammar[I][0], 0)}  # convierte I a una tupla de un solo elemento
+#     for prod, dot_pos in I:
+#         if dot_pos < len(prod) and prod[dot_pos] == symbol:
+#             # aplicar transición
+#             new_elem = (prod, dot_pos + 1)
+#             J.add(new_elem)
+#     return cerradura(J, grammar)
+
+
+# def elementos(grammar):
+#     """
+#     Construye el conjunto de elementos para todos los símbolos no terminales y terminales de la gramática.
+#     grammar: lista de producciones de la gramática
+#     Retorna: diccionario de conjuntos de elementos indexado por los símbolos
+#     """
+#     elements = {}
+#     for symbol in simbolos_gramaticales(grammar):
+#         I = cerradura({(grammar[0][0], 0)}, grammar)
+#         J = irA(I, symbol, grammar)
+#         if J and J not in elements.values():
+#             elements[symbol] = J
+#     return elements
+
+
+# def simbolos_gramaticales(grammar):
+#     """
+#     Obtiene la lista de símbolos gramaticales presentes en la gramática.
+#     grammar: lista de producciones de la gramática
+#     Retorna: lista de símbolos gramaticales presentes en la gramática
+#     """
+#     symbols = set()
+#     for prod in grammar:
+#         symbols.add(prod[0])
+#         for symbol in prod[1:]:
+#             if symbol.isupper():
+#                 symbols.add(symbol)
+#     return list(symbols)
+
+# def siguiente(symbol, grammar):
+#     """
+#     Construye el conjunto de símbolos que pueden aparecer inmediatamente después de un símbolo dado.
+#     symbol: símbolo para el que se calcula el conjunto siguiente
+#     grammar: lista de producciones de la gramática
+#     Retorna: conjunto de símbolos que pueden aparecer inmediatamente después de symbol
+#     """
+#     follows = set()
+#     if symbol == grammar[0][0]:
+#         follows.add('$')
+#     for prod in grammar:
+#         for i, prod_symbol in enumerate(prod[1:]):
+#             if prod_symbol == symbol:
+#                 if i == len(prod) - 2:
+#                     # el símbolo es el último de la producción
+#                     follows |= siguiente(prod[0], grammar)
+#                 else:
+#                     # hay símbolos después del símbolo actual en la producción
+#                     first_set = primeros(prod[i+2:], grammar)
+#                     if None in first_set:
+#                         # hay un conjunto de primeros que incluye a vacío
+#                         follows.update(siguiente(prod[0], grammar))
+#                         follows.update(first_set - {None})
+#                     else:
+#                         follows.update(first_set)
+#     return follows
+
+# def primeros(symbols, grammar):
+#     """
+#     Construye el conjunto de símbolos que pueden aparecer como primeros en una secuencia de símbolos.
+#     symbols: secuencia de símbolos
+#     grammar: lista de producciones de la gramática
+#     Retorna: conjunto de símbolos que pueden aparecer como primeros en symbols
+#     """
+#     firsts = set()
+#     if not symbols:
+#         # la secuencia es vacía
+#         firsts.add(None)
+#     else:
+#         first_set = primero(symbols[0], grammar)
+#         if None in first_set:
+#             # hay un símbolo que puede generar vacío
+#             firsts.update(first_set - {None})
+#             firsts.update(primeros(symbols[1:], grammar))
+#         else:
+#             firsts.update(first_set)
+#     return firsts
+
+
+# def primero(symbol, grammar):
+#     """
+#     Construye el conjunto de símbolos que pueden aparecer como primer símbolo en una producción.
+#     symbol: símbolo cuyo conjunto primero se calcula
+#     grammar: lista de producciones de la gramática
+#     Retorna: conjunto de símbolos que pueden aparecer como primer símbolo en la producción de symbol
+#     """
+#     first_set = set()
+#     if not symbol.isupper():
+#         # el símbolo es terminal
+#         first_set.add(symbol)
+#     else:
+#         # el símbolo es no terminal
+#         for prod in grammar:
+#             if prod[0] == symbol:
+#                 # es una producción que comienza con el símbolo
+#                 if prod[1] != symbol:
+#                     # el primer símbolo de la producción no es el símbolo mismo
+#                     first_set.update(primeros(prod[1:], grammar))
+#                 else:
+#                     # hay recursión a la izquierda
+#                     # no se puede incluir el primer símbolo de la producción
+#                     # en el conjunto primero para evitar bucle infinito
+#                     pass
+#     return first_set
+
+
+# def tabla_LR0(grammar):
+#     """
+#     Construye la tabla LR(0) para una gramática dada.
+#     grammar: lista de producciones de la gramática
+#     Retorna: diccionario que representa la tabla LR(0)
+#     """
+#     # Paso 1: Aumentar la gramática
+#     grammar, start_symbol = aumentar_gramatica(grammar)
+
+#     # Paso 2: Calcular los conjuntos de elementos
+#     elements = elementos(grammar)
+
+#     print("Símbolo de inicio: ", start_symbol)
+#     print("Gramática: ", grammar)
+#     print("Conjuntos de elementos: ", elements)
+
+
+#     # Paso 3: Construir la tabla LR(0)
+#     table = {}
+#     for state, item_set in enumerate(elements.values()):
+#         for prod, dot_pos in item_set:
+#             if dot_pos == len(prod):
+#                 # el punto está al final de la producción
+#                 if prod[0] == start_symbol:
+#                     # aceptación
+#                     table[state, '$'] = ('acc',)
+#                 else:
+#                     # Agregar los conjuntos a la tabla.
+#                     for symbol in siguiente(prod[0], grammar):
+#                         table[state, symbol] = ('r', prod)
+#             else:
+#                 # el punto no está al final de la producción
+#                 symbol = prod[dot_pos]
+#                 J = irA(item_set, symbol, grammar)
+
+#                 #print(J)
+
+#                 if J:
+#                     # desplazamiento
+#                     for j_state, j_item_set in elements.items():
+#                         if j_item_set == J:
+#                             table[state, symbol] = ('s', j_state)
+#                             #print(table)
+#                             break
+
+#     return table
+
+# grammar = [    
+#     ("S", "E"),
+#     ("E", "E + T"),
+#     ("E", "T"),
+#     ("T", "T * F"),
+#     ("T", "F"),
+#     ("F", "( E )"),
+#     ("F", "id")
+# ]
+
+
+# tabla = tabla_LR0(grammar)
+
+
+# print(tabla)

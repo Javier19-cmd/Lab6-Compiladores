@@ -1,0 +1,1126 @@
+### Dibujo del AFN
+
+def grafo(automata, lista, diccionario):
+    grafo = gv.Digraph('G', filename='grafo', format='png')
+
+    estados = [ str(estado) for estado in diccionario.keys() ]
+
+    # Dibujando los nodos.
+    for estado in estados:
+        if estado == str(automata.get_estado_inicial()):
+            grafo.node(estado, estado, color='green')
+        elif estado == str(automata.get_estado_final()):
+            grafo.node(estado, estado, color='red')
+        else:
+            grafo.node(estado, estado, color='blue')
+    
+    # Dibujando las aristas.
+    print("Estados: " + str(estados))
+
+    # Dibujando las transiciones.
+    for key, value in diccionario.items():
+        for simbolo, estado in value:
+            grafo.edge(str(key), str(estado), label=simbolo)
+
+    grafo.render('grafo', view=True)
+
+
+### Siguiente posición.
+        # # Identificando los padres e hijos del árbol.
+        # for c in arbol: 
+            
+        #     if c.etiqueta == "|":
+
+        #         print("Or: ", "Izquierda: ", c.left, "Derecha: ", c.right)
+
+        #         # Verificando si alguno de los hijos es una letra para colocar un número a la par de la letra dentro del diccionario.
+        #         if (c.left.etiqueta not in ["|", "*", "."]) and (c.right.etiqueta not in ["|", "*", "."]):
+                    
+        #             # Agregando el contador de cada elemento a su lado.
+        #             diccionario[c] = [c.left, contador, c.right, contador + 1]
+
+        #             contador += 2
+
+        #         elif c.right.etiqueta not in ["|", "*", "."]:
+
+        #             diccionario[c] = [c.left, c.right, contador]
+
+        #             contador += 1
+                
+        #         elif c.left.etiqueta not in ["|", "*", "."]:
+    
+        #             diccionario[c] = [c.left, c.right, contador]
+
+        #             contador += 1
+        #         else: 
+        #             diccionario[c] = [c.left, c.right]
+                
+
+        #     elif c.etiqueta == ".":
+
+        #         # Verificando si alguno de los hijos es una letra para colocar un número a la par de la letra dentro del diccionario.
+        #         if c.left.etiqueta not in ["|", "*", "."]:
+        #             diccionario[c] = [c.left, contador , c.right]
+        #             contador += 1
+
+        #         elif c.right.etiqueta not in ["|", "*", "."]:
+
+        #             diccionario[c] = [c.left, c.right, contador]
+
+        #             contador += 1
+                
+        #         elif (c.left.etiqueta not in ["|", "*", "."]) and (c.right.etiqueta not in ["|", "*", "."]):
+    
+        #             diccionario[c] = [c.left, c.right, contador]
+
+        #             contador += 1
+        #         else: 
+        #             diccionario[c] = [c.left, c.right]
+
+        #     elif c.etiqueta == "*":
+
+        #         print("Kleene: ", "hijo: ", c.child)
+
+        #         if c.child.etiqueta not in ["|", "*", "."]:
+        #             diccionario[c] = [c.child, contador]
+        #         else: 
+        #             diccionario[c] = [c.child]
+
+        # print("Diccionario: ", diccionario)
+
+
+        # # Calculando el anulable.
+        # for c in arbol:
+        #     resultado = self.anulable(c)
+
+        #     #print("Anulable: ", resultado)
+
+        #     # Aumentando el diccionario con los resultados del anulable.
+        #     anulable[c] = resultado
+        
+        # print("Anulable: ", anulable)
+
+        # # Haciendo una copia del diccionario.
+        # diccionario_anulable = diccionario.copy()
+
+        # # Agregando a la par de cada elemento su anulable.
+        # for c, d in diccionario_anulable.items(): 
+        #     for i in range(len(d)):
+        #         if d[i] in anulable:
+        #             d[i] = [d[i], anulable[d[i]]]
+            
+        # print("Diccionario anulable: ", diccionario_anulable)
+        # #print("Diccionario normal: ", diccionario)
+
+        # #ultimaPos = []
+
+        # diccionario_primera = diccionario.copy()
+        # # Calculando la primera posición del diccionario.
+        # for c, d in diccionario_primera.items():
+        #     for i in range(len(d)):
+        #         # Viendo cual es la lista.
+        #         if type(d[i]) == list:
+        #             # Calculando su primera posición.
+        #             primeraPos = self.primeraPosicion(d[i][0])
+
+        #             print("Primera posición: ", primeraPos)
+
+        #             # Agregando la primera posición a la par de cada elemento.
+        #             d[i] = [d[i], primeraPos]
+
+
+        # diccionario_ultima = diccionario.copy()
+
+        # # Calculando la última posición del diccionario 2.
+        # for c, d in diccionario_ultima.items():
+        #     for i in range(len(d)):
+        #         # Viendo cual es la lista.
+        #         if type(d[i]) == list:
+        #             # Calculando su primera posición.
+        #             ultimaPos = self.ultimaPosicion(d[i][0])
+
+        #             print("Primera posición: ", primeraPos)
+
+        #             # Agregando la primera posición a la par de cada elemento.
+        #             d[i] = [d[i], ultimaPos]
+        
+        # print("Diccionario_ultima: ", diccionario_ultima)
+------------------------------------------------------------------------------
+            #print(ultima_vez_token)
+
+        # # Recorriendo la lista de resultados.
+        # for i in range(len(resultado)):
+        #     print("Resultado: ", resultado[i])
+        #     # Recorriendo la lista de resultados.
+
+        # if not diccionarios:
+        #     #print("Resultado: ", resultado)
+        #     return resultado
+
+
+        # if len(self.reservadas) == 0:
+        #     # Si ya no quedan más cadenas por simular, se devuelve el resultado.
+        #     #print("Resultado: ", resultado)
+        #     return resultado
+        # else:
+
+        #     #print("Cad_s", self.cad_s)
+
+        #     # Se toma la primera cadena en la lista de cadenas.
+        #     cadena_actual = self.reservadas.pop(0)
+
+        #     #print("Cadena actual: ", cadena_actual)
+
+        #     # Se simula la cadena en cada diccionario en la lista de diccionarios.
+        #     valores_cadena = []
+        #     for i in range(len(diccionarios)):
+        #         diccionario = diccionarios[i]
+        #         estado_ini = iniciales[i]
+        #         estados_acept = finales[i]
+        #         estado_actual = estado_ini[0]
+
+        #         # Se simula la cadena en el diccionario actual.
+        #         for j in range(len(cadena_actual) - 1):
+        #             caracter_actual = cadena_actual[j]
+        #             caracter_siguiente = cadena_actual[j+1]
+
+        #             #print("Estado actual: ", estado_actual)
+
+        #             v, estado_actual = self.simular_cadena2(diccionario, estado_actual, caracter_actual, caracter_siguiente, estados_acept)
+
+        #             # if v == False:
+        #             #     valores_cadena.append(v)
+        #             #     break
+
+        #             if j == len(cadena_actual) - 2:
+        #                 valores_cadena.append(v)
+
+        #     # Se agrega la lista de valores de la cadena actual al resultado.
+        #     resultado.append(valores_cadena)
+
+        #     #print("Cadena: ", cadena_actual, "resultados: ", valores_cadena)
+
+        #     if cadena_actual in self.reservadas:
+        #         # Si la cadena actual es una palabra reservada, se agrega a la lista de resultados.
+        #         print("Palabra reservada", cadena_actual)
+        #         #resultado.append(True)
+        #         #print("Cadena: ", cadena_actual, "resultados: ", True)
+
+        #     # Se llama recursivamente a la función con las listas actualizadas.
+        #     return self.simular_res(diccionarios, iniciales, finales, resultado)
+-------------------------------------------------------------------------------------------------------------------
+           # Si la copia de la cadena tenía "", entonces analizar su lista de valores_cadena.
+            #if self.cadena_copy.count('"') == 2:
+            #print("Cadena: ", cadena_actual, "resultados: ", valores_cadena)
+
+            # if valores_cadena[5] == True:
+            #     pass
+            # else:
+            #     valores_cadena[6] = False
+
+            #     # Buscando el número de línea en donde se encuentra la cadena actual en el archivo.
+            #     with open(self.archivo, "r") as archivos:
+            #         for i, linea in enumerate(archivos):
+            #             if cadena_actual in linea:
+            #                 print("Sintax error: " + cadena_actual + " line: ", i+1)
+
+            # # Verificando si hay un true en la lista de valores cadena en la posición 7.
+            # if valores_cadena[6] == True:
+            #     pass
+            # else:
+                
+            #     valores_cadena[7] = False
+
+            #     # Buscando el número de línea en donde se encuentra la cadena actual en el archivo.
+            #     with open(self.archivo, "r") as archivos:
+            #         for i, linea in enumerate(archivos):
+            #             if cadena_actual in linea:
+            #                 print("Sintax error: " + cadena_actual + " line: ", i+1)
+
+-----------------------------------------------------------------------------------------------------
+            # if cadena_actual.count('"') == 2: # Detectando si la cadena actual es una cadena de texto.
+                
+            #     for caracter in cadena_actual:
+            #         if caracter.isalpha():
+            #             #print("Caracter")
+            #             # Quitar las comillas de la cadena.
+            #             cadena_actual = cadena_actual.replace('"', '')
+                
+            # else: 
+            #     # Si no es una cadena de texto, se verifica si es una palabra reservada.
+            #     if cadena_actual in self.reservadas:
+            #         # Si la cadena actual es una palabra reservada, se agrega a la lista de resultados.
+            #         print("Palabra reservada", cadena_actual)
+            #         resultado.append(True)
+                
+            #     # Si la cadena es diferente a un número, entonces no importa.
+            #     if cadena_actual.isdigit() == False:
+            #         pass
+
+            # # Detectando los operadores.
+            # if len(cadena_actual) == 1: # Detectando primero su longitud.
+            #     if cadena_actual in self.operadores_reservados: # Detectando si es un operador.
+            #         print("Operador detectado")
+
+            #print("Cadena actual: ", cadena_actual)
+
+# Construcción de la tabla en GrammarA.
+
+# def construir_automata_LR0(grammar):
+#     """
+#     Construye el autómata de análisis sintáctico LR(0) a partir de una gramática dada.
+
+#     Args:
+#         grammar (List[List[str]]): La gramática en forma de lista de producciones.
+
+#     Returns:
+#         Tuple[Dict[Tuple[int, str], Tuple[str, int]], Dict[int, Dict[str, Tuple[str, int]]]]: Una tupla con el diccionario de transiciones y el diccionario de acciones.
+#     """
+#     # Aumentar la gramática
+#     grammar = aumentar_gramatica(grammar)
+
+#     # Obtener los símbolos gramaticales
+#     simbolos_gram = simbolos_gramaticales(grammar)
+
+#     # Construir la gramática y el conjunto I0
+#     gramatica, I0 = construir_gramatica_y_conjunto_I(grammar)
+
+#     # Crear la lista de conjuntos LR(0) y el diccionario de transiciones
+#     C = [CERRADURA(I0, gramatica)]
+#     transiciones = {}
+
+#     # Crear el diccionario de acciones
+#     acciones = {}
+
+#     FIN_CADENA = "FIN"
+#     SHIFT = "SHIFT"
+#     ACEPTAR = "ACEPTAR"
+#     REDUCE = "REDUCE"
+
+#     # Recorrer la lista de conjuntos LR(0)
+#     for i, conjunto in enumerate(C):
+#         # Recorrer los símbolos gramaticales y el símbolo de fin de cadena
+#         for simbolo in simbolos_gram + [FIN_CADENA]:
+#             # Calcular el conjunto siguiente
+#             ir_a = irA(conjunto, simbolo, gramatica)
+
+#             # Si el conjunto siguiente es vacío, pasar al siguiente símbolo
+#             if not ir_a:
+#                 continue
+
+#             # Si el conjunto siguiente no está en la lista de conjuntos, agregarlo
+#             if ir_a not in C:
+#                 C.append(ir_a)
+
+#             # Agregar la transición correspondiente
+#             j = C.index(ir_a)
+#             transiciones[(i, simbolo)] = (SHIFT, j)
+
+#         # Recorrer las producciones en el conjunto actual
+#         for produccion in conjunto:
+#             # Si la producción está completa, agregar la acción correspondiente
+#             if produccion[-1] == ".":
+#                 # Si es la producción S' -> S., agregar la acción de aceptar
+#                 if produccion == f"{gramatica[0][0]}' -> {gramatica[0][0]}.":
+#                     acciones[(i, FIN_CADENA)] = (ACEPTAR,)
+#                 # Si no, agregar la acción de reducir
+#                 else:
+#                     for simbolo in simbolos_gram + [FIN_CADENA]:
+#                         acciones[(i, simbolo)] = (REDUCE, produccion)
+
+#     return transiciones, acciones
+
+def elementos(G):
+    
+    gra, Is = construir_gramatica_y_conjunto_I(G)
+
+    # Obtener la producción que tenga el '.
+    # print("Gramática: ", gra, "Conjunto I: ",  Is)
+
+    # Quitar las producciones que sean de tipo "E' -> E'." y "E' -> .E'" del Is.
+    Is = {produccion for produccion in Is if produccion[0] != produccion[1]}
+
+    #print(Is)
+
+    C = CERRADURA(Is, gra)
+    
+    simbolos_gramaticaless = simbolos_gramaticales(G)
+
+    #print("Simbolos: ", simbolos_gramaticaless)
+    
+    #print("C: ", C)
+
+    done = False
+    while not done:
+        done = True
+        new_sets = set()  # create a new set to store the new items
+        for I in C:
+            for X in simbolos_gramaticaless:
+
+                # print("I: ", I)
+                # print("Símbolos: ", simbolos_gramaticaless)
+                # print("X: ", X)
+
+                ira = irA(I, X, G)
+                #print("IrA", ira)
+
+                if ira and ira not in C:
+
+                    #print("ira: ", ira)
+
+                    new_sets.add(frozenset(ira))  # add the new items to the new set
+
+                    #print("New set: ", new_sets)
+
+                    done = False
+        C.update(new_sets)  # add the new items to C
+
+        #print("C: ", C)
+
+    return C
+
+--------------------------------------------------------------------------------------
+                        #print("Next sym: ", next_sym, " producción: ", s)
+
+                        # Moviendo el punto a la derecha del símbolo.
+                        #s.derecha = s.derecha[:dot_pos] + next_sym + '.' + s.derecha[dot_pos+2:]
+
+                        #print("s.derecha: ", s.derecha)
+
+                        #break
+
+                        # Agarrando la producción entera.
+                        #print("Producción: ", s)
+
+                    # # Viendo el símbolo que está a la derecha del punto.
+                    # next_sym = s.derecha[dot_pos:]
+
+                    # print("Next sym: ", next_sym)
+
+                    # Revisar que elementos hay a la derecha del punto que sean iguales al símbolo que se está usando.
+
+                    
+
+                # for p in X_productions:
+                #     if p.derecha[dot_pos] == '.' and p.derecha[dot_pos+1] == X:
+
+                #         #print("Cosa: ",p.derecha[dot_pos], p.derecha[dot_pos+1])
+
+                #         # Guardando la parte izquierda de la producción.
+                #         #print(type(p))
+                #         iz = p.izquierda
+
+                #         # Mover el punto a la derecha del símbolo X en el lado derecho de la producción.
+                #         new_lado_derecho = p.derecha[:dot_pos] + X + '.' + p.derecha[dot_pos+2:]
+
+                #         #print(iz, new_lado_derecho)
+                        
+                #         #res.derecha = new_lado_derecho
+
+                #         # Imprimiendo el símbolo de la producción original de donde se sacó la producción.
+                        
+                #         # print("Izquierda de la producción: ", iz)
+                #         # print(res)
+
+
+                #         # print("Res izquierda: ", res.izquierda)
+                #         # print("Res: derecha ", new_lado_derecho)
+
+                #         # Guardando la nueva producción.
+                #         if p.izquierda == iz: 
+
+                #             #print("X en la creación de la nueva producción: ", X)
+                #             p.derecha = new_lado_derecho
+                #             #print("Nueva prod: ", p)
+
+                #             #print(type(p))
+
+                #             # Cambiar el tipo de p a lista.
+                #             p = list(p)
+
+                #             if p not in J:
+                #                 # print(res)
+
+
+                #                 #print("p: ",p)
+
+                #                 J.append(p)
+                #                 #print(res[0])
+
+                #             # print("J: ", J)
+                #             # for s in J:
+                #             #     print("S: ", s)
+
+                #             # a = CERRADURA(J, gramatica)
+
+                #             # print("a: ", a)
+
+                #             #return CERRADURA(J, gramatica)
+
+                
+                # # Obteniendo lo que estaba a la derecha de ese punto.
+
+    #print("J: ", J)
+
+    # return CERRADURA(J, gramatica)
+
+-----------------------------------------------------------------------------------------------------
+J = I.copy()
+
+# for eleme in J:
+#     print("Elementos in cerradura: ", eleme)
+
+estados = {}
+
+corazones = []
+
+added = True
+while added:
+    added = False
+    for item in J:
+        simbolo = item[0] # Símbolo
+        prod = item[1] # Producción
+
+        # Si el símbolo es E' y la producción es E, entonces es un corazón.
+        if simbolo == "E'":
+            if prod == ".E":
+                corazon = Corazon(simbolo, prod)
+                print("Corazón a agregar en Cerradura: ", corazon)
+                estados[corazon] = set() # Usamos un conjunto para evitar duplicados.
+                corazones.append(corazon)
+
+        dot_pos = prod.index('.')
+
+        # Verificando si el punto no está a la izquierda, dado que eso será corazón también.
+        if dot_pos > 0:
+            # Imprimiendo el corazón a agregar.
+            #print("item: ", item, " prod: ", prod, " posición del punto: ", dot_pos)
+
+            # Imprimiendo el elemento que está a la izquierda del punto.
+            #print("Símbolo en dot_pos > 0: ", prod[dot_pos - 1])
+
+            if prod[dot_pos - 1] == "d":
+                # Imprimiendo el elemento sin el punto.
+                #print("Símbolo en dot_pos > 0: ", prod[:dot_pos])
+
+                # Buscando en la derecha de la regla todo lo que empiece con prod[:dot_pos].
+                for rule in grammar.productions:
+                    if rule[1][0] == "i":
+                        #print("Regla del id: ", rule[1][0:])
+                        if prod[:dot_pos] == rule[1][0:]: # Creando corazones.
+                            corazon = Corazon(simbolo, prod[:dot_pos] + prod[dot_pos:])
+                            #print("Nuevo corazón: ", corazon)
+                            if corazon not in corazones:
+                                estados[corazon] = set()
+                                corazones.append(corazon)
+                        
+                    else: 
+                        #print("Regla: ", rule[1][0])
+                        if prod[:dot_pos] == rule[1][0]: # Creando corazones.
+                            corazon = Corazon(simbolo, prod[:dot_pos] + prod[dot_pos:])
+                            if corazon not in corazones:
+                                estados[corazon] = set()
+                                corazones.append(corazon)
+                            #print("Corazón en el else de id: ", corazon)
+
+            else: 
+                #print("Símbolo en dot_pos > 0: ", prod[dot_pos - 1])
+                for rule in grammar.productions:
+                    #print("Regla: ", rule[1][0])
+                    if prod[:dot_pos] == rule[1][0]: # Creando corazones.
+                        corazon = Corazon(simbolo, prod[:dot_pos] + prod[dot_pos:])
+                        if corazon not in corazones:
+                            estados[corazon] = set()
+                            corazones.append(corazon)
+                        #print("Nuevo corazón: ", corazon)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+        # Obteniendo 
+
+        if dot_pos < len(corazon.derecha) - 1:
+
+            # Obteniendo lo que estaba a la derecha de ese punto.
+            next_sym = corazon.derecha[dot_pos+1]
+
+            #print("Next sym: ", next_sym)
+
+            #print("Next sym: ", next_sym)
+
+            # Revisar que elementos hay a la derecha del punto que sean iguales al símbolo que se está usando.
+            if next_sym == X:
+
+                #print("next_sym: ", next_sym, " corazón: ", corazon)
+                
+                # print("next_sym para el corazón: ", next_sym)
+
+                # Moviendo el punto a la derecha del símbolo.
+                corazon.derecha = corazon.derecha[:dot_pos] + next_sym + '.' + corazon.derecha[dot_pos+2:]
+
+                #print("Corazón en ir_A: ", corazon)
+                
+                #print("Agregado: ", corazon)
+
+                if corazon not in J:
+                    
+                    #print("Corazón a agregar: ", corazon)
+
+                    J.append(corazon)
+
+        for res in resto:
+
+            #print("Resto: ", resto)
+
+            # Buscar el índice del punto.
+            dot_pos = res.derecha.index('.')
+
+            # Obteniendo el siguiente símbolo.
+            #next_sym = res.derecha[dot_pos:]
+
+            #print("Siguiente símbolo: ", next_sym)
+
+            if dot_pos < len(res.derecha) - 1:
+                # Crear una lista de producciones que tengan el símbolo X en el lado izquierdo.
+                X_productions = [p for p in resto if p.izquierda == X]
+
+                for p in X_productions:
+
+                    # Verificando si el dot_pos no se pasa de la longitud de la p.derecha.
+                    if dot_pos < len(p.derecha) - 1:
+                    
+                        next_sym = p.derecha[dot_pos+1]
+
+
+                        if next_sym == "i":
+                            next_sym = p.derecha[dot_pos+1:]
+
+                        # Parte derecha de la producción.
+                        s = p.derecha[1]
+
+                        if s == "i":
+                            s = p.derecha[1:]
+
+                            # #print("Producción derecha: ", next_sym)
+
+                            # #print("next_sym: ", next_sym, " X ", X)
+
+                            # # Verificando que el next_sym sea igual a X.
+                            # if next_sym == X:
+                            #     #print("Igualdad: ", p)
+                            #     #print("Agregado: ", p)
+                            #     if p not in J:
+                            #         J.append(p)
+                        #print("next_sym: ", next_sym)
+                        #print("p: ", p ," p.derecha[1]: ", s, " X: ", X, " next_sym: ", next_sym)
+
+                        if next_sym == s: 
+                            #print("Agregado: ", p)
+
+                            # Corriendo el punt oa la derecha de next_sym.
+
+                            # Buscar el índice del punto.
+                            dot_pos = p.derecha.index('.')
+
+                            # Imprimiendo el índice del punto.
+                            #print("Índice del punto: ", dot_pos, " next_sym: ", next_sym)
+
+
+                            if next_sym == "id":
+
+                                nex = p.derecha[dot_pos+1:]
+
+                                nex2 = p.derecha[dot_pos+1]
+
+                                nex2 = nex2.replace(".", "")
+
+                                # Copiando lo que estaba a la derecha del símbolo que se copió.
+                                nex3 = p.derecha[dot_pos+1:]
+
+                                nex2 = nex + "."
+
+                                #print("Elementos: ", nex, "", nex2)
+
+                                p.derecha = nex2
+
+                                #print("p: ", p)
+
+                                if p not in J:
+                                    print(type(p))
+                                    J.append(p)
+                            
+                            else: 
+
+                                #print("p: ", p)
+
+                                #print("next_sym: ", next_sym)
+
+                                #print("next_sym: ", next_sym)
+
+                                # Sacando cada elemento de la producción
+                                nex = p.derecha[dot_pos+1:]
+
+                                print("Next: ", nex)
+
+                                nex2 = p.derecha[dot_pos+1]
+
+                                nex2 = nex2.replace(".", "")
+
+                                # Copiando lo que estaba a la derecha del símbolo que se copió.
+                                nex3 = p.derecha[dot_pos+1:]
+
+                                nex2 = nex + "."
+
+                                
+
+                                # Moviendo el punto a la derecha del símbolo.
+                                p.derecha = p.derecha[:dot_pos] + next_sym + '.' + p.derecha[dot_pos+2:]
+
+                                #print("p: ", p)
+
+                                if p not in J:
+                                    J.append(p)
+
+                            # if next_sym == "id":
+                            #     # Moviendo el punto a la derecha del id.
+                            #     p.derecha = p.derecha[:dot_pos] + next_sym + '.' + p.derecha[dot_pos+3:]
+
+                            # else:
+                            #     # Moviendo el punto a la derecha del símbolo.
+                            #     p.derecha = p.derecha[:dot_pos] + next_sym + '.' + p.derecha[dot_pos+2:]
+
+                            # print("Nueva derecha: ", p.derecha)
+
+                            # if p not in J:
+                            #     J.append(p)
+
+                            # if p not in J:
+                            #     J.append(p)
+
+                        # Imprimiendo las producciones que tengan el mismo símbolo a la izquierda del punto que X.
+
+                        # # Guardando el símbolo.
+                        # next_sym = p.derecha[dot_pos+1]
+
+
+                        # # Si el símbolo es igual a i, entonces se jala todo.
+                        # if next_sym == 'i':
+                        #     next_sym = p.derecha[dot_pos+1:]
+
+                        #     # print("Producción derecha: ", next_sym)
+
+                        #     # print("next_sym: ", next_sym, " X ", X)
+
+                        #     # Verificando que el next_sym sea igual a X.
+                        #     if next_sym == X:
+                        #         print("Igualdad: ", p)
+
+                        # #print("Producción derecha: ", next_sym)
+
+                        # #print("Next sym: ", next_sym)
+                        
+                        # if next_sym == X:
+                        #     #print(" Símbolo: ", X, " next_sym: ", next_sym)
+
+                        #     print("Igualdad fuera del ID: ", p)
+
+
+                # Código antes del arreglo.
+                    # for s in X_productions:
+                    #     #print("Producción: ", s, " símbolo: ", X)
+
+
+                    #     if dot_pos < len(s.derecha):
+
+                    #         next_sym = s.derecha[dot_pos+1]
+
+                    #         if next_sym == 'i':
+                    #             next_sym = s.derecha[dot_pos+1:]
+
+                    #             #print("id: ", next_sym)
+
+                            
+                    #         #print("Next sym: ", next_sym, " s.derecha: ", s.derecha, " producción: ", s)
+
+                    #         if next_sym == "id":
+                    #             next_sym = s.derecha[dot_pos+1:]
+
+                    #             next_sym2 = s.derecha[dot_pos+1]
+
+                    #             next_sym2 = next_sym2.replace(".", "")
+
+                    #             # Copiando lo que estaba a la derecha del símbolo que se copió.
+                    #             next_sym3 = s.derecha[dot_pos+2:]
+
+                    #             next_sym2 = next_sym + "."
+
+                    #             # Agarrando la izquierda.
+                    #             new_left = s.izquierda
+
+                    #             # Si el símbolo es id, entonces es un terminal.
+                    #             new_state = Corazon(new_left, next_sym2)
+
+                    #             if new_state not in lista_temp:
+                    #                 lista_temp.append(new_state)
+
+                    #             #print("Next sym2 con el punto a la derecha siendo id: ", next_sym2)
+                                
+                    #             #print("Nuevo estado: ", new_state)
+
+                    #             J.append(new_state)
+
+
+                    #         next_sym2 = s.derecha[dot_pos+1]
+
+                    #         #print("Next sym2: ", next_sym)
+
+                    #         if next_sym != "id":
+
+                    #             next_sym2 = next_sym2.replace(".", "")
+
+                    #             # Copiando lo que estaba a la derecha del símbolo que se copió.
+                    #             next_sym3 = s.derecha[dot_pos+2:]
+
+                    #             next_sym2 = next_sym2 + "." + next_sym3
+
+                    #             #print("Next sym2 con el punto a la derecha: ", next_sym2)
+                                
+                    #             # Nueva izquierda.
+
+                    #             # Copiando la izquierda de la producción original.
+                    #             new_left = s.izquierda
+
+                    #             # print("S: ", s)
+
+                    #             # Haciendo el nuevo EstadoLR.
+                    #             new_state = Corazon(new_left, next_sym2)
+
+                    #             #print("New state: ", new_state)
+
+                    #             if new_state not in lista_temp: 
+                    #                 lista_temp.append(new_state)
+
+                    #             # Volviendo lista el new_state.
+                    #             #new_state = list(new_state)
+
+                    #             # Agregando el nuevo estado a J.
+                    #             if new_state not in J:
+                    #                 J.append(new_state)
+        #print("J: ", J)
+
+        # if J: 
+        #     for corao in J:
+        #         print("Elemento del corazón: ", corao)
+            
+        #     print("")
+
+
+        # # Buscando los estados que tengan el mismo símbolo a la izquierda del punto.
+        # for estado in lista_temp:
+
+        #     # Posición del punto.
+        #     dot_pos = estado.derecha.index('.')
+
+        #     # Leyendo el símbolo que está a la izquierda del punto.
+        #     ant_sym = estado.derecha[dot_pos-1]
+
+        #     # Si el símbolo a la izquierda del punto es 'd', entonces se lee todo el símbolo anterior.
+        #     if ant_sym == "d":
+        #         ant_sym = estado.derecha[:dot_pos]
+
+        #     # Creando una lista temporal vacía.
+        #     lista_temp2 = []
+
+        #     # Agrupando los estados que el lado derecho empieza con el símbolo que se detectó.
+        #     for estado2 in lista_temp:
+        #         # Obteniendo el primer símbolo a la izquierda del punto del estado2.
+        #         simbolo_izq = estado2.derecha[estado2.derecha.index('.')-1]
+                
+        #         # Si el símbolo a la izquierda del punto de estado2 coincide con ant_sym, se agrega a la lista_temp2.
+        #         if simbolo_izq == ant_sym:
+        #             if estado2 not in lista_temp2:
+        #                 lista_temp2.append(estado2)
+        
+
+        #     # Imprimiendo la lista de estados que empiezan con el mismo símbolo.
+        #     print("Estados con el mismo símbolo a la izquierda del punto: ", [str(estado) for estado in lista_temp2])
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+ added = True
+    while added:
+        added = False
+        for item in J:
+            simbolo = item[0] # Símbolo
+            prod = item[1] # Producción
+
+            # Si el símbolo es E' y la producción es E, entonces es un corazón.
+            if simbolo == "E'":
+                if prod == ".E":
+                    
+                    corazon = Corazon(simbolo, prod)
+                    #print("Corazón a agregar en Cerradura: ", corazon)
+                    
+                    estados[corazon] = set() # Usamos un conjunto para evitar duplicados.
+
+                    #print(estados[corazon])
+
+            dot_pos = prod.index('.')
+
+
+            # Verificando si el punto no está a la izquierda, dado que eso será corazón también.
+            if dot_pos > 0:
+
+                # Imprimiendo el corazón a agregar.
+                #print("item: ", item, " prod: ", prod, " posición del punto: ", dot_pos)
+
+                # Imprimiendo el elemento que está a la izquierda del punto.
+                #print("Símbolo en dot_pos > 0: ", prod[dot_pos - 1])
+
+                if prod[dot_pos - 1] == "d":
+                    
+                    # Imprimiendo el elemento sin el punto.
+                    #print("Símbolo en dot_pos > 0: ", prod[:dot_pos])
+
+                    # Buscando en la derecha de la regla todo lo que empiece con prod[:dot_pos].
+                    for rule in grammar.productions:
+                        if rule[1][0] == "i":
+                            #print("Regla del id: ", rule[1][0:])
+                            
+                            if prod[:dot_pos] == rule[1][0:]: # Creando corazones.
+
+                                #print("prod: ", prod[:dot_pos], " rule: ", rule[1][0:])
+
+                                corazon = Corazon(simbolo, prod[:dot_pos] + prod[dot_pos:])
+
+                                #print("Nuevo corazón: ", corazon)
+
+                                estados[corazon] = set()
+                        
+                        else: 
+                            #print("Regla: ", rule[1][0])
+
+                            if prod[:dot_pos] == rule[1][0]: # Creando corazones.
+
+                                #print("prod: ", prod[:dot_pos], " rule: ", rule[1][0])
+                                
+                                corazon = Corazon(simbolo, prod[:dot_pos] + prod[dot_pos:])
+
+                                estados[corazon] = set()
+
+                                #print("Corazón en el else de id: ", corazon)
+
+                else: 
+                    #print("Símbolo en dot_pos > 0: ", prod[dot_pos - 1])
+                    
+                    for rule in grammar.productions:
+                        
+                       # print("Regla: ", rule[1][0])
+
+                        #print("producción: ", prod[:dot_pos]," regla: ",  rule[1][0])
+
+                        if prod[:dot_pos] == rule[1][0]: # Creando corazones.
+                            corazon = Corazon(simbolo, prod[:dot_pos] + prod[dot_pos:])
+
+                            #print("Nuevo corazón: ", corazon)
+
+                            estados[corazon] = set()
+
+            # Si el punto está a la izquierda, entonces es un resto.
+            if dot_pos == 0:
+                if simbolo != "E'" and prod != ".E":
+                    resto = Resto(simbolo, prod)
+                    # Buscar todas las producciones que empiecen con el elemento que está a la derecha del punto.
+                    for rule in grammar.productions:
+
+                        if resto.derecha[1] == "i":
+                            # Agarrando el id.
+                            #print("id: ", resto.derecha[1:])
+                            
+                            #print("Resto: ", resto, " posición 1 en resto ", resto.derecha[1:], "Rule en la posición 0 ", rule[0])
+
+                            if rule[1] == resto.derecha[1:]:
+                                # print("rule[0]: ", rule[1])
+                                # print("Agregando: ", rule[1], "resto ",resto.derecha[1:])
+                                #print("Agregando: ", resto.derecha[1:])
+
+                                estados[corazon].add(resto)
+
+                                #added = True
+                        
+                        else: 
+                        
+                            #print("Resto: ", resto, " posición 1 en resto ", resto.derecha[1], "Rule en la posición 0 ", rule[1][0])
+
+                            if rule[1][0] == "i":
+                                #print("id dentro del else: ",rule[1][0:])
+
+                                #print("Agregando el id: ", rule[1][0:])
+
+                                if rule[1][0:] == resto.derecha[1]:
+                                    #print("rule[]")
+                                    #print("Agregando: ", rule[1][0:], "resto ", resto.derecha[1])
+                                    #print()
+
+                                    estados[corazon].add(resto)
+
+                                    #added = True
+
+                            if rule[1][0] == resto.derecha[1]:
+                            
+                                # print("Agregando: ", rule[0], " resto ",resto)
+                                #print("Agregando: ", resto)
+
+                                estados[corazon].add(resto)
+
+                                #added = True
+
+    # # Imprimiendo los estados.
+    # for corazon, resto in estados.items():
+    #     print("Corazón en CERRADURA: ", corazon)
+        
+    
+    #print("")
+
+--------------------------------------------------------------------------------------------------------------------------
+def CERRADURA(I, grammar):
+    J = I.copy()
+
+    # for eleme in J:
+    #     print("Elementos in cerradura: ", eleme)
+
+    estados = {}
+
+    corazones = []
+
+    added = True
+    while added:
+        added = False
+        for item in J:
+            simbolo = item[0] # Símbolo
+            prod = item[1] # Producción
+
+            # Si el símbolo es E' y la producción es E, entonces es un corazón.
+            if simbolo == "E'":
+                if prod == ".E":
+                    
+                    corazon = Corazon(simbolo, prod)
+                    #print("Corazón a agregar en Cerradura: ", corazon)
+                    
+                    estados[corazon] = set() # Usamos un conjunto para evitar duplicados.
+
+                    #print(estados[corazon])
+
+            dot_pos = prod.index('.')
+
+
+            # Verificando si el punto no está a la izquierda, dado que eso será corazón también.
+            if dot_pos > 0:
+
+                # Imprimiendo el corazón a agregar.
+                #print("item: ", item, " prod: ", prod, " posición del punto: ", dot_pos)
+
+                # Imprimiendo el elemento que está a la izquierda del punto.
+                #print("Símbolo en dot_pos > 0: ", prod[dot_pos - 1])
+
+                if prod[dot_pos - 1] == "d":
+                    
+                    # Imprimiendo el elemento sin el punto.
+                    #print("Símbolo en dot_pos > 0: ", prod[:dot_pos])
+
+                    # Buscando en la derecha de la regla todo lo que empiece con prod[:dot_pos].
+                    for rule in grammar.productions:
+                        if rule[1][0] == "i":
+                            #print("Regla del id: ", rule[1][0:])
+                            
+                            if prod[:dot_pos] == rule[1][0:]: # Creando corazones.
+
+                                #print("prod: ", prod[:dot_pos], " rule: ", rule[1][0:])
+
+                                corazon = Corazon(simbolo, prod[:dot_pos] + prod[dot_pos:])
+
+                                #print("Nuevo corazón: ", corazon)
+
+                                estados[corazon] = set()
+                        
+                        else: 
+                            #print("Regla: ", rule[1][0])
+
+                            if prod[:dot_pos] == rule[1][0]: # Creando corazones.
+
+                                #print("prod: ", prod[:dot_pos], " rule: ", rule[1][0])
+                                
+                                corazon = Corazon(simbolo, prod[:dot_pos] + prod[dot_pos:])
+
+                                estados[corazon] = set()
+
+                                #print("Corazón en el else de id: ", corazon)
+
+                else: 
+                    #print("Símbolo en dot_pos > 0: ", prod[dot_pos - 1])
+                    
+                    for rule in grammar.productions:
+                        
+                       # print("Regla: ", rule[1][0])
+
+                        #print("producción: ", prod[:dot_pos]," regla: ",  rule[1][0])
+
+                        if prod[:dot_pos] == rule[1][0]: # Creando corazones.
+                            corazon = Corazon(simbolo, prod[:dot_pos] + prod[dot_pos:])
+
+                            #print("Nuevo corazón: ", corazon)
+
+                            estados[corazon] = set()
+
+            # Si el punto está a la izquierda, entonces es un resto.
+            if dot_pos == 0:
+                if simbolo != "E'" and prod != ".E":
+                    resto = Resto(simbolo, prod)
+                    # Buscar todas las producciones que empiecen con el elemento que está a la derecha del punto.
+                    for rule in grammar.productions:
+
+                        if resto.derecha[1] == "i":
+                            # Agarrando el id.
+                            #print("id: ", resto.derecha[1:])
+                            
+                            #print("Resto: ", resto, " posición 1 en resto ", resto.derecha[1:], "Rule en la posición 0 ", rule[0])
+
+                            if rule[1] == resto.derecha[1:]:
+                                # print("rule[0]: ", rule[1])
+                                # print("Agregando: ", rule[1], "resto ",resto.derecha[1:])
+                                #print("Agregando: ", resto.derecha[1:])
+
+                                estados[corazon].add(resto)
+
+                                #added = True
+                        
+                        else: 
+                        
+                            #print("Resto: ", resto, " posición 1 en resto ", resto.derecha[1], "Rule en la posición 0 ", rule[1][0])
+
+                            if rule[1][0] == "i":
+                                #print("id dentro del else: ",rule[1][0:])
+
+                                #print("Agregando el id: ", rule[1][0:])
+
+                                if rule[1][0:] == resto.derecha[1]:
+                                    #print("rule[]")
+                                    #print("Agregando: ", rule[1][0:], "resto ", resto.derecha[1])
+                                    #print()
+
+                                    estados[corazon].add(resto)
+
+                                    #added = True
+
+                            if rule[1][0] == resto.derecha[1]:
+                            
+                                # print("Agregando: ", rule[0], " resto ",resto)
+                                #print("Agregando: ", resto)
+
+                                estados[corazon].add(resto)
+
+                                #added = True
+
+    # # Imprimiendo los estados.
+    # for corazon, resto in estados.items():
+    #     print("Corazón en CERRADURA: ", corazon)
+        
+    
+    #print("")
+
+    return estados

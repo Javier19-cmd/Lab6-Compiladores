@@ -1,0 +1,11 @@
+Yalex 1:
+Debe poder reconocer números enteros, números decimales, números hexadecimales, operadores aritméticos y el operador de potenciación.
+
+Yalex 2: 
+Debe poder reconocer identificadores, números enteros, operadores aritméticos y las palabras reservadas if, for y while.
+
+Yalex 3: 
+Debe poder reconocer identificadores (donde cada identificador debe terminar con la cadena xyz), números enteros, números decimales, las palabras reservadas if y for, 
+y cadenas de caracteres (donde una cadena de caracteres debe poder contener tanto números, letras, y espacios en blanco, y debe empezar y finalizar con comillas dobles).
+
+Para cada archivo YALex se debe elaborar un archivo de entrada que tenga al menos 20 lexemas separados por espacios en blanco, tabuladores o saltos de línea. Cada archivo de entrada debe poder ser reconocido correctamente en su totalidad. Las pruebas de detección de errores léxicos en el archivo de entrada se harán con base en modificaciones solicitadas al momento de la calificación.
