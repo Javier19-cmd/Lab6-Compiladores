@@ -638,6 +638,10 @@ def construir_automata_LR0(grammar): # Construcción de la gramática.
 
     gramatica = Grammar(gramatica)
 
+    # Estructuras para construir la Action Table y la GoTo Table.
+    action_table = {}
+    goto_table = {}
+
     # print(type(gramatica))
 
     #print("Grammar: ", gramatica)
@@ -695,7 +699,87 @@ def construir_automata_LR0(grammar): # Construcción de la gramática.
 
                     C.append(goto)
 
+
+                    # Guardando la transición en la GoTo table.
+                    goto_table[(EstadoT(conjunto), X)] = EstadoT(goto)
+
                     agregado = True
+    
+
+    # Construcción de la action table.
+    for elemento in tabla:
+
+
+        estado_actual = elemento[0]     # Estado inicial.
+        simbolo = elemento[1]           # Símbolo.
+        estado_siguiente = elemento[2]  # Estado de llegada.
+
+        for Xs in simbolos_gram:
+
+            # Si en el estado_actual hay una cosa como esta A -> α.Xβ.
+            for corazon, resto in estado_actual.items():
+                
+                # Obteniendo la posición del punto.
+                dot_pos = corazon.derecha.index('.')
+                
+                # Shift.
+                if dot_pos == 1:
+                    if Xs == simbolo:
+                        #print("Posición del punto: ", dot_pos)
+                        #print("Hay una coincidencia: ", " X: ", Xs, " simbolo: ", simbolo, " posición del punto: ", dot_pos, " coazón: ", corazon)
+
+                        # Colocando el shift en el diccionario.
+                        estadoI = EstadoT(estado_actual)
+                        estadoF = EstadoT(estado_siguiente)
+
+                        #print(" Estado inicial: ", estadoI, " símbolo: ", Xs, " estado final: ", estadoF)
+
+                        action_table[(estadoI, Xs)] = ("shift", estadoF)
+                        goto_table[(estadoI, Xs)] = ("shift", estadoF)
+                
+                # Reduce.
+                # Si el . está hasta el final del corazón del estado, entonces es una reducción.
+                if dot_pos == len(corazon.derecha) - 1:
+                    #print("Posición del punto: ", dot_pos)
+                    #print("Hay una coincidencia: ", " X: ", Xs, " simbolo: ", simbolo, " posición del punto: ", dot_pos, " coazón: ", corazon)
+
+                    # Colocando el reduce en el diccionario.
+                    estadoI = EstadoT(estado_actual)
+                    estadoF = EstadoT(estado_siguiente)
+                    
+                    #print(" Estado inicial: ", estadoI, " símbolo: ", Xs, " estado final: ", estadoF)
+
+                    action_table[(estadoI, Xs)] = ("reduce", estadoF)
+
+                    goto_table[(estadoI, Xs)] = ("reduce", estadoF)
+                
+                # Accept.
+
+                if corazon.derecha == "E.":
+
+                    print("Corazón izquierda: ", corazon.izquierda, " corazón derecha: ", corazon.derecha)
+
+                # Si el corazón es S' -> S., entonces es un accept.
+                if corazon.izquierda == "E'" and corazon.derecha == ".E":
+                    #print("Posición del punto: ", dot_pos)
+
+                    print("Aceptación")
+
+                    #print("Hay una coincidencia: ", " X: ", Xs, " simbolo: ", simbolo, " posición del punto: ", dot_pos, " coazón: ", corazon)
+
+                    # Colocando el accept en el diccionario.
+                    estadoI = EstadoT(estado_actual)
+                    estadoF = EstadoT(estado_siguiente)
+
+                    #print(" Estado inicial: ", estadoI, " símbolo: ", Xs, " estado final: ", estadoF)
+                    
+                    action_table[(estadoI, Xs)] = ("accept", estadoF)
+
+                    # Guardando esta info en la GoTo table.
+                    goto_table[(estadoI, Xs)] = ("accept", estadoF)
+
+
+
 
     # for estado in C:
     #     #pass
@@ -762,7 +846,7 @@ def construir_automata_LR0(grammar): # Construcción de la gramática.
     # print("")
 
 
-    return tabla
+    return tabla, action_table, goto_table
 
 
 # Definiendo la función primero.

@@ -6,8 +6,8 @@ from io import StringIO
 import pydot
 from Grammar import *
 
-yapar = "slr-2.yalp" # Variable que guarda el nombre del yapar.
-yalex = "slr-2.yal" # Variable que guarda el nombre del yalex.
+yapar = "slr-1.yalp" # Variable que guarda el nombre del yapar.
+yalex = "slr-1.yal" # Variable que guarda el nombre del yalex.
 
 lista_tk = [] # Tokens del yalex.
 lista_tkyp = [] # Tokens del yapar.
@@ -288,7 +288,13 @@ with open(yapar) as y:
         converted_grammar = Grammar(converted_grammar)
         print("Gramática: ", converted_grammar)
 
-        tabla = construir_automata_LR0(converted_grammar)
+        tabla, action_table, goto_table = construir_automata_LR0(converted_grammar)
+        
+        print("Action Table: ")
+        print(action_table)
+
+        #print("GoTo Table: ")
+        #print()
 
 
         # Imprimiendo hacia abajo la tabla.
@@ -299,8 +305,8 @@ with open(yapar) as y:
         #print(tabla_general)
 
     
-    for s in tabla_general:
-        print(s)
+    # for s in tabla_general:
+    #     print(s)
 
     graph = pydot.Dot(graph_type='digraph')
 

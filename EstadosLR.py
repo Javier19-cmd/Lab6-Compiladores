@@ -48,3 +48,11 @@ class Resto:
     
     def __hash__(self):
         return hash((self.izquierda, self.derecha))
+
+class EstadoT: 
+    def __init__(self, estado):
+        self.estado = estado
+    
+    def __str__(self):
+        return f"{self.estado}"
+    
