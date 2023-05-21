@@ -49,7 +49,7 @@ class Resto:
     def __hash__(self):
         return hash((self.izquierda, self.derecha))
 
-class EstadoT: 
+class EstadoT: # Esto es solo para pasarlo a un diccionario de diccionarios.
     def __init__(self, estado):
         self.estado = estado
     

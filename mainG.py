@@ -288,13 +288,18 @@ with open(yapar) as y:
         converted_grammar = Grammar(converted_grammar)
         print("Gramática: ", converted_grammar)
 
-        tabla, action_table, goto_table = construir_automata_LR0(converted_grammar)
+        tabla, action_table, goto_table, resultado, resultado2, res, res2 = construir_automata_LR0(converted_grammar)
         
         print("Action Table: ")
         print(action_table)
 
         #print("GoTo Table: ")
         #print()
+
+
+        parse_tabl = parse_table(converted_grammar, resultado, resultado2, res, res2)
+
+        print("Parse Table: ", parse_tabl)
 
 
         # Imprimiendo hacia abajo la tabla.

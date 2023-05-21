@@ -800,6 +800,8 @@ def construir_automata_LR0(grammar): # Construcción de la gramática.
     # pri_r = []
     # sig_r = []
     
+    res = {}
+
     # Recorriendo la gramática aumentada.
     for produccion in gramatica.productions:
         
@@ -816,9 +818,10 @@ def construir_automata_LR0(grammar): # Construcción de la gramática.
         #     pri_r.append(resultado)
 
         print("Símbolo: ", no_terminal, " Resultado de primero: ", resultado)
+        res[no_terminal] = resultado
 
         
-    
+    res2 = {}
     for produccion2 in gramatica.productions: 
 
         no_terminal2 = produccion2[0]
@@ -826,6 +829,9 @@ def construir_automata_LR0(grammar): # Construcción de la gramática.
         resultado2 = siguiente(no_terminal2, gramatica)
 
         print("Símbolo: ", no_terminal, " Resultado2: ", resultado2)
+
+        # Pasando este resultado a un diccionario.
+        res2[no_terminal2] = resultado2
 
         # if resultado2 not in sig_r:
         #     sig_r.append(resultado2)
@@ -846,7 +852,7 @@ def construir_automata_LR0(grammar): # Construcción de la gramática.
     # print("")
 
 
-    return tabla, action_table, goto_table
+    return tabla, action_table, goto_table, resultado, resultado2, res, res2
 
 
 # Definiendo la función primero.
@@ -1001,11 +1007,106 @@ def siguiente(no_terminal, gramatica):
         
     #print("Símbolo: ", no_terminal, " siguiente: ", siguientes)
 
+    """
+        Convirtiendo la lista a diccionario, entonces la llave será el no terminal, y el valor será lo que se generó.
+    """
+
     return siguientes
 
 
     
     # print("No terminales: ", no_terminales)
+
+
+def parse_table(gramatica, primero, siguiente, res, res2):
+
+    print("Resultado de primero: ", res)
+    print("Resultado de siguiente: ", res2)
+
+    
+    parse_table = {}
+
+    print("No terminales: ", gramatica.non_terminals)
+
+    # Obteniendo las producciones de la gramática.
+    #producciones = gramatica.productions
+
+    for i, production in enumerate(gramatica.productions):
+        print("i: ", i, " production: ", production)
+        
+        # Obteniendo los pedazos de la gramática.
+        non_terminal = production[0]
+        productio = production[1]
+
+        print("Non terminal: ", non_terminal)
+
+        if non_terminal not in parse_table:
+            parse_table[non_terminal] = {}
+
+        print("Primero: ", primero, " siguiente: ", siguiente)
+
+        if productio == "epsilon":
+
+            follow = res2[non_terminal]
+
+            for terminal in follow:
+                if terminal not in parse_table[non_terminal]:
+                    parse_table[non_terminal][terminal] = []
+                parse_table[non_terminal][terminal].append("reduce", i)
+
+        else: 
+
+            print("Non_terminal: ", non_terminal, " conjunto primero: ", primero)
+
+            # Agarrando los primeros del no terminal dentro de la lista primero.
+
+            first_set = res[non_terminal]
+
+            for terminal in first_set:
+                if terminal not in parse_table[non_terminal]:
+                    parse_table[non_terminal][terminal] = []
+                parse_table[non_terminal][terminal].append(("shift", i))
+            
+            # Verificando si es anulable.
+            if productio == "":
+                # Agarrando el followpos del símbolo.
+                follow = res2[non_terminal]
+
+                for terminal in follow:
+                    if terminal not in parse_table[non_terminal]:
+                        parse_table[non_terminal][terminal] = []
+                    parse_table[non_terminal][terminal].append(("reduce", i))
+
+
+    """
+        Cambiando llaves de la tabla.
+
+        Si la llave es E, entonces es expresión.
+        Si la llave es T, entonces es término.
+        Si la llave es F, entonces es factor.
+        Si la llave es G, entonces es gramática.
+        Si la llave es id, entones es identificador.
+    
+    """
+    #print("Parse table: ", parse_table)
+
+    for key, value in parse_table.items():
+        print("Key: ", key, " value: ", value)
+
+        # Si la key es E, entonces es expresión.
+        if key == "E":
+            parse_table["expression"] = parse_table.pop(key)
+        
+        # Si la key es T, entonces es término.
+        if key == "T":
+            parse_table["term"] = parse_table.pop(key)
+
+        # Si la key es F, entonces es factor.
+        if key == "F":
+            parse_table["factor"] = parse_table.pop(key)
+
+    return parse_table
+
 
 # grammar = Grammar([
 #     ["E", "E + T"],
