@@ -1,5 +1,4 @@
 from Grammar import *
-from GramarF import primero, siguiente
 from GrammarA import *
 import re
 from io import StringIO
@@ -285,98 +284,23 @@ with open(yapar) as y:
 
         #print("Gramática convertida: ", converted_grammar)
 
-        converted_grammar = Grammar(converted_grammar)
-        print("Gramática: ", converted_grammar)
+        gramatica_convertida = []
 
-        tabla, action_table, goto_table, resultado, resultado2, res, res2 = construir_automata_LR0(converted_grammar)
+        for produccion in converted_grammar:
+            simbolo = produccion[0]
+            derivaciones = produccion[1:]
+            for derivacion in derivaciones:
+                regla = [simbolo, '->'] + derivacion.split()
+                gramatica_convertida.append(regla)
+
+        # Conversión final.
+        print("Gramática convertida: ", gramatica_convertida)
+
+        delta, que, terminals, first, follow = crear_automataLR(gramatica_convertida)
         
-        print("Action Table: ")
-        print(action_table)
+        # for key, value in delta.items():
+        #     print("Key: ", key, "Value: ", value)
 
-        #print("GoTo Table: ")
-        #print()
-
-
-        parse_tabl = parse_table(converted_grammar, resultado, resultado2, res, res2)
-
-        print("Parse Table: ", parse_tabl)
-
-
-        # Imprimiendo hacia abajo la tabla.
-        for i in tabla:
-            tabla_general.append(i)
-            #print(i)
-        
-        #print(tabla_general)
-
-    
-    # for s in tabla_general:
-    #     print(s)
-
-    graph = pydot.Dot(graph_type='digraph')
-
-    # Creando los nodos.
-    nodes = set()
-    for lista in tabla_general:
-        #print(lista)
-
-           #print(tupla[0])
-
-        # Convertir cada lista en la posición 0 de la lista a tupla si en caso no lo es.
-        if type(lista[0]) == tuple:
-            #nodes.add(lista[0])
-            pass
-        elif type(lista[0]) == list:
-            tupla_general0 = tuple(tuple(lista) for lista in lista[0])
-
-            #print(tupla_general0)
-            nodes.add(tupla_general0)
-        
-        # Convertir cada lista en la posición 2 de la lista a tupla si en caso no lo es.
-        if type(lista[2]) == tuple:
-            pass
-        elif type(lista[2]) == list:
-            tupla_general2 = tuple(tuple(lista) for lista in lista[2])
-
-            #print(tupla_general2)
-            nodes.add(tupla_general2)
-    
-    # Agregando los nodos a la estructura de datos.
-    for node in nodes:
-
-        #print("Nodo: ", node)
-
-        graph.add_node(pydot.Node(str(node)))
-
-    # Haciendo las conexiones.
-    for lista in tabla_general:
-        
-        tupla0 = lista[0]
-        tupla2 = lista[2]
-        etiqueta = lista[1]
-
-        # print("Tupla0: ", tupla0)
-        # print("Tupla2: ", tupla2)
-        # print("Etiqueta: ", etiqueta)
-        
-
-        # Conversión de la lista[0] en caso de que sea necesario.
-        if type(lista[0]) == tuple:
-            tupla0 = lista[0]
-        elif type(lista[0]) == list:
-            tupla0 = tuple(tuple(lista) for lista in lista[0])
-
-        # Conversión de la lista[2] en caso de que sea necesario.
-        if type(lista[2]) == tuple:
-            tupla2 = lista[2]
-        elif type(lista[2]) == list:
-            tupla2 = tuple(tuple(lista) for lista in lista[2])
-        
-        graph.add_edge(pydot.Edge(str(tupla0), str(tupla2), label=str(etiqueta)))
-
-        # Poniendo el grafo de manera vertical.
-        #graph.set_rankdir("LR")
-
-        # Guardando el archivo.
-        graph.write_png('Gramática.png')
-        
+        #print("Delta: ", delta)
+        #print("Action: ", action)
+        #print("Goto: ", goto)
