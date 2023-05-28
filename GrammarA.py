@@ -402,7 +402,6 @@ def crear_automataLR(gramma):
 
     
     print("Action table: ", action)
-    print("Goto table: ", goto)
     
     # # Imprimiendo elemento por elemento del action table.
     # for key, value in action.items():
