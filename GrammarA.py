@@ -401,8 +401,8 @@ def crear_automataLR(gramma):
                 goto[key] = value
 
     
-    print("Action table: ", action)
-    print("Goto table: ", goto)
+    # print("Action table: ", action)
+    # print("Goto table: ", goto)
 
     parse_table = {}
 
@@ -417,18 +417,36 @@ def crear_automataLR(gramma):
 
                 for reduce_symbol, productions in reduce_rules.items():
                     for production in productions:
-                        parse_table[state][reduce_symbol] = f"r{production}"
+                        if reduce_symbol in parse_table[state]:
+                            # Conflictos de reducción-desplazamiento
+                            print(f"Reduce-Shift conflict in state {state} for symbol {reduce_symbol}")
+                            # Realiza alguna acción para resolver el conflicto, como elegir una acción prioritaria
+                            # o modificar la gramática para eliminar la ambigüedad.
+                        else:
+                            parse_table[state][reduce_symbol] = f"r{production}"
             elif symbol == '$':
                 # Acción de aceptación
                 parse_table[state][symbol] = "acc"
             else:
                 # Acción de desplazamiento
-                parse_table[state][symbol] = f"s{action_value}"
+                if symbol in parse_table[state]:
+                    # Conflictos de reducción-desplazamiento
+                    print(f"Reduce-Shift conflict in state {state} for symbol {symbol}")
+                    # Realiza alguna acción para resolver el conflicto, como elegir una acción prioritaria
+                    # o modificar la gramática para eliminar la ambigüedad.
+                else:
+                    parse_table[state][symbol] = f"s{action_value}"
 
     # Completar la tabla con las entradas de Goto
     for state, transitions in goto.items():
         for symbol, goto_state in transitions.items():
-            parse_table[state][symbol] = goto_state
+            if symbol in parse_table[state]:
+                # Conflictos de reducción-desplazamiento
+                print(f"Reduce-Shift conflict in state {state} for symbol {symbol}")
+                # Realiza alguna acción para resolver el conflicto, como elegir una acción prioritaria
+                # o modificar la gramática para eliminar la ambigüedad.
+            else:
+                parse_table[state][symbol] = goto_state
 
     # Imprimir la tabla de análisis sintáctico
     print("Parse Table:")
@@ -436,7 +454,8 @@ def crear_automataLR(gramma):
         print(f"State {state}:")
         for symbol, action_value in transitions.items():
             print(f"  {symbol}: {action_value}")
-    
+
+
     
     # # Imprimiendo elemento por elemento del action table.
     # for key, value in action.items():
