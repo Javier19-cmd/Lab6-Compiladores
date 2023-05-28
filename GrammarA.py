@@ -335,6 +335,7 @@ def crear_automataLR(gramma):
     # print("Siguientes:")
     # for simbolo, conjunto in siguientes.items():
     #     print(f"{simbolo}: {conjunto}")
+    action = {}
     goto = {}
 
     #print("Delta: ", delta)
@@ -373,7 +374,6 @@ def crear_automataLR(gramma):
 
     F_identificator = ast.literal_eval(F_identificator)
 
-    action = {}
 
     # Recorriendo cada elemento de los estados que hay en delta.
     for key, value in diccionario_lista.items():
@@ -402,6 +402,41 @@ def crear_automataLR(gramma):
 
     
     print("Action table: ", action)
+    print("Goto table: ", goto)
+
+    parse_table = {}
+
+    # Llenar la tabla de análisis sintáctico
+    for state, transitions in action.items():
+        parse_table[state] = {}
+
+        for symbol, action_value in transitions.items():
+            if symbol == 'reduce':
+                # Acción de reducción
+                reduce_rules = action_value
+
+                for reduce_symbol, productions in reduce_rules.items():
+                    for production in productions:
+                        parse_table[state][reduce_symbol] = f"r{production}"
+            elif symbol == '$':
+                # Acción de aceptación
+                parse_table[state][symbol] = "acc"
+            else:
+                # Acción de desplazamiento
+                parse_table[state][symbol] = f"s{action_value}"
+
+    # Completar la tabla con las entradas de Goto
+    for state, transitions in goto.items():
+        for symbol, goto_state in transitions.items():
+            parse_table[state][symbol] = goto_state
+
+    # Imprimir la tabla de análisis sintáctico
+    print("Parse Table:")
+    for state, transitions in parse_table.items():
+        print(f"State {state}:")
+        for symbol, action_value in transitions.items():
+            print(f"  {symbol}: {action_value}")
+    
     
     # # Imprimiendo elemento por elemento del action table.
     # for key, value in action.items():
