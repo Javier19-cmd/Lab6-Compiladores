@@ -1,9 +1,8 @@
-from Grammar import *
 from GrammarA import *
 import re
 from io import StringIO
 import pydot
-from Grammar import *
+
 
 yapar = "slr-1.yalp" # Variable que guarda el nombre del yapar.
 yalex = "slr-1.yal" # Variable que guarda el nombre del yalex.
@@ -294,7 +293,7 @@ with open(yapar) as y:
                 gramatica_convertida.append(regla)
 
         # Conversión final.
-        print("Gramática convertida: ", gramatica_convertida)
+        #print("Gramática convertida: ", gramatica_convertida)
 
         delta, que, terminals, first, follow = crear_automataLR(gramatica_convertida)
         
