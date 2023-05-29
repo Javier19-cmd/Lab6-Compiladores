@@ -335,7 +335,6 @@ def crear_automataLR(gramma):
     # print("Siguientes:")
     # for simbolo, conjunto in siguientes.items():
     #     print(f"{simbolo}: {conjunto}")
-    action = {}
     goto = {}
 
     #print("Delta: ", delta)
@@ -374,6 +373,7 @@ def crear_automataLR(gramma):
 
     F_identificator = ast.literal_eval(F_identificator)
 
+    action = {}
 
     # Recorriendo cada elemento de los estados que hay en delta.
     for key, value in diccionario_lista.items():
@@ -395,7 +395,7 @@ def crear_automataLR(gramma):
                 if not isinstance(action[key], dict):
                     action[key] = {}  # Crear un diccionario si action[key] no es un diccionario
                 action[key].setdefault(symbol, {})  # Verificar si el símbolo existe en el diccionario
-                action[key][symbol] = ("shift", value[symbol])
+                action[key][symbol] = ["shift", value[symbol]]
             else:
                 # Colocando el goto en el goto.
                 goto[key] = value
@@ -403,6 +403,7 @@ def crear_automataLR(gramma):
     
     # print("Action table: ", action)
     # print("Goto table: ", goto)
+
 
     parse_table = {}
 
@@ -412,6 +413,8 @@ def crear_automataLR(gramma):
 
         for symbol, action_value in transitions.items():
             if symbol == 'reduce':
+
+                #print("Reducción")
                 # Acción de reducción
                 reduce_rules = action_value
 
@@ -422,11 +425,15 @@ def crear_automataLR(gramma):
                             print(f"Reduce-Shift conflict in state {state} for symbol {reduce_symbol}")
                             # Realiza alguna acción para resolver el conflicto, como elegir una acción prioritaria
                             # o modificar la gramática para eliminar la ambigüedad.
+
+                            # Dejando el símbolo en la tabla.
+                            parse_table[state][reduce_symbol] = [symbol, production]
+
                         else:
-                            parse_table[state][reduce_symbol] = f"r{production}"
+                            parse_table[state][reduce_symbol] = production
             elif symbol == '$':
                 # Acción de aceptación
-                parse_table[state][symbol] = "acc"
+                parse_table[state][symbol] = "accept"
             else:
                 # Acción de desplazamiento
                 if symbol in parse_table[state]:
@@ -434,28 +441,19 @@ def crear_automataLR(gramma):
                     print(f"Reduce-Shift conflict in state {state} for symbol {symbol}")
                     # Realiza alguna acción para resolver el conflicto, como elegir una acción prioritaria
                     # o modificar la gramática para eliminar la ambigüedad.
+                    
+
                 else:
-                    parse_table[state][symbol] = f"s{action_value}"
+                    parse_table[state][symbol] = action_value
 
-    # Completar la tabla con las entradas de Goto
-    for state, transitions in goto.items():
-        for symbol, goto_state in transitions.items():
-            if symbol in parse_table[state]:
-                # Conflictos de reducción-desplazamiento
-                print(f"Reduce-Shift conflict in state {state} for symbol {symbol}")
-                # Realiza alguna acción para resolver el conflicto, como elegir una acción prioritaria
-                # o modificar la gramática para eliminar la ambigüedad.
-            else:
-                parse_table[state][symbol] = goto_state
+    # # Imprimir la tabla de análisis sintáctico
+    # print("Parse Table:")
+    # for state, transitions in parse_table.items():
+    #     print(f"State {state}:")
+    #     for symbol, action_value in transitions.items():
+    #         print(f"  {symbol}: {action_value}")
 
-    # Imprimir la tabla de análisis sintáctico
-    print("Parse Table:")
-    for state, transitions in parse_table.items():
-        print(f"State {state}:")
-        for symbol, action_value in transitions.items():
-            print(f"  {symbol}: {action_value}")
-
-
+    print("Parse table: ", parse_table)
     
     # # Imprimiendo elemento por elemento del action table.
     # for key, value in action.items():
@@ -475,6 +473,6 @@ def crear_automataLR(gramma):
     #         print(ele, ":", value[ele])
     
 
-    return delta, que, terminals, primeros, siguientes
+    return parse_table
 
 #delta, que, terminals, first, follow = crear_automataLR(gramma)

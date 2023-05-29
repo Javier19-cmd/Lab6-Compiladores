@@ -4,8 +4,8 @@ from io import StringIO
 import pydot
 
 
-yapar = "slr-1.yalp" # Variable que guarda el nombre del yapar.
-yalex = "slr-1.yal" # Variable que guarda el nombre del yalex.
+yapar = "slr-2.yalp" # Variable que guarda el nombre del yapar.
+yalex = "slr-2.yal" # Variable que guarda el nombre del yalex.
 
 lista_tk = [] # Tokens del yalex.
 lista_tkyp = [] # Tokens del yapar.
@@ -295,7 +295,7 @@ with open(yapar) as y:
         # Conversión final.
         #print("Gramática convertida: ", gramatica_convertida)
 
-        delta, que, terminals, first, follow = crear_automataLR(gramatica_convertida)
+        parse_table = crear_automataLR(gramatica_convertida)
         
         # for key, value in delta.items():
         #     print("Key: ", key, "Value: ", value)

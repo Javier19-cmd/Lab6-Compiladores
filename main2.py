@@ -6,16 +6,20 @@ from SintaxT import *
 from ErroresArchivo import *
 import re
 from SimuladorTxT import *
+from GrammarA import *
+import re
+from io import StringIO
+
 
 tabla = {} # Tabla para guardar las declaraciones con let.
-archivo = "ej3.txt"
+archivo = "slr-2.txt"
 
 tabla_res = {} # Tabla para guardar las palabras reservadas.
 
 res_list = [] #Lista para guardar las palabras reservadas.
 
 # Abriendo el archivo expresiones.yal para leer su contenido.
-with open("ej3.yal", "r", encoding='utf-8') as file:
+with open("slr-2.yal", "r", encoding='utf-8') as file:
     data = file.read() # Leyendo la data del archivo.
     
     #print("Data: ", data)
@@ -137,6 +141,7 @@ with open("ej3.yal", "r", encoding='utf-8') as file:
                 operadores_reservados.append(elemento)
 
         print("Operadores resrvados: ", operadores_reservados)
+        #print("Línea 144")
 
         # Sacando los operadores de la lista de palabras reservadas.
         for elemento in operadores_reservados:
@@ -436,9 +441,7 @@ with open("ej3.yal", "r", encoding='utf-8') as file:
 
     # Si se quiere ver el árbol, descomentar la línea 227 del SintaxT.
 
+    print("Operadores reservados: ", operadores_reservados)
 
     # Llamando al simulador del txt.
     SimuladorTxT(lista_diccionarios, lista_iniciales, lista_finales, archivo, res_list, operadores_reservados, tokens, tabla)
-
-
-# Probando compilar un archivo yalex.

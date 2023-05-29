@@ -2,23 +2,23 @@
 
 (* Introducir cualquier header aqui *)
 
-let delim = ["\s\t\n"]
+let delim = [' ''\t''\n']
 let ws = delim+
 let letter = ['A'-'Z''a'-'z']
 let digit = ['0'-'9']
 let digits = digit+
 let id = letter(letter|digit)*
-let number = digits(.digits)?('E'['+''-']?digits)?
+let number = (sign)digits(,digits)
 
-rule tokens = 
+rule gettoken = 
     ws        { return WHITESPACE }               (* Cambie por una acción válida, que devuelva el token *)
   | id        { return ID }
   | number    { return NUMBER }
-  | '+'       { return PLUS }
-  | '-'       { return MINUS }
-  | '*'       { return TIMES }
-  | '/'       { return DIV }
-  | '('       { return LPAREN }
-  | ')'       { return RPAREN }
+  | "+"       { return PLUS }
+  | "-"       { return MINUS }
+  | "*"       { return TIMES }
+  | "/"       { return DIV }
+  | "("       { return LPAREN }
+  | ")"       { return RPAREN }
 
 (* Introducir cualquier trailer aqui *)

@@ -1124,3 +1124,44 @@ def CERRADURA(I, grammar):
     #print("")
 
     return estados
+------------------------------------------
+    # # Imprimir la tabla de análisis sintáctico
+    # replacements = {
+    #     'E': 'expression',
+    #     'T': 'term',
+    #     'F': 'factor',
+    #     '+': 'PLUS',
+    #     '-': 'MINUS',
+    #     '*': 'TIMES',
+    #     '/': 'DIV',
+    #     '(': 'LPAREN',
+    #     ')': 'RPAREN',
+    #     'id': 'ID',
+    #     'N': 'NUMBER',
+    # }
+
+
+    # new_parse_table = {}
+
+    # for state, transitions in parse_table.items():
+    #     new_transitions = {}
+    #     for symbol, action_value in transitions.items():
+    #         new_action_value = []
+    #         for element in action_value:
+    #             if element == "shift" or element == "accept" or element == ".":
+    #                 new_action_value.append(element)
+    #             else:
+    #                 new_element = []
+    #                 for s in element:
+    #                     if isinstance(s, str):
+    #                         new_element.append(replacements.get(s, s))
+    #                     elif isinstance(s, list):
+    #                         new_inner_element = [replacements.get(x, x) for x in s]
+    #                         new_element.append(new_inner_element)
+    #                 new_action_value.append(new_element)
+    #         new_symbol = replacements.get(symbol, symbol)
+    #         new_transitions[new_symbol] = new_action_value
+    #     new_state = replacements.get(state, state)
+    #     new_parse_table[new_state] = new_transitions
+
+    # print("Change:", new_parse_table)
