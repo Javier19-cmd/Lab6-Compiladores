@@ -354,6 +354,7 @@ class SimuladorTxT:
             #     #resultado.append(True)
             #     #print("Cadena: ", cadena_actual, "resultados: ", True)
 
+
             # Se llama recursivamente a la función con las listas actualizadas.
             return self.simular_cadenas(diccionarios, iniciales, finales, resultado)
     
@@ -383,7 +384,7 @@ class SimuladorTxT:
                     with open(self.archivo, "r") as ar:
                         for a, linea in enumerate(ar):
                             if clave in linea:
-                                print("Sintax error: " + clave + " line: ", a+1)
+                                print("Lexical error: " + clave + " line: ", a+1)
             
             for i, valor in enumerate(lista):
 
@@ -513,6 +514,10 @@ class SimuladorTxT:
 
             if estado_siguiente in estados_acept:
                 #print("Cadena aceptada.")
+                #print("Cadena aceptada: ", self.cadena_copy)
+                result = self.slr_parse(self.parse_table, self.cadena_copy)
+
+                print("Result parse: ", result)
                 return True, estado_actual
             
             # if estado_actual in estados_acept:
@@ -529,6 +534,10 @@ class SimuladorTxT:
             
             elif estado_siguiente in estados_acept:
                 #print("Cadena aceptada.")
+                #print("Cadena aceptada: ", self.cadena_copy)
+                result = self.slr_parse(self.parse_table, self.cadena_copy)
+
+                print("Result parse: ", result)
                 return True, estado_actual
         
             else:
@@ -545,6 +554,11 @@ class SimuladorTxT:
 
             if estado_siguiente in estados_acept:
                 #print("Cadena aceptada.")
+
+                #print("Cadena aceptada: ", self.cadena_copy)
+                result = self.slr_parse(self.parse_table, self.cadena_copy)
+
+                print("Result parse: ", result)
                 return True, estado_siguiente
 
             if estado_siguiente == {}:
@@ -556,6 +570,14 @@ class SimuladorTxT:
             
             elif estado_siguiente in estados_acept:
                 #print("Cadena aceptada.")
+                #print("Cadena aceptada: ", self.cadena_copy)
+
+
+                # Mandando esto al slr_parse.
+                result = self.slr_parse(self.parse_table, self.cadena_copy)
+
+                print("Result parse: ", result)
+
                 return True, estado_siguiente
         
             else:
