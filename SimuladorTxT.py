@@ -515,9 +515,9 @@ class SimuladorTxT:
             if estado_siguiente in estados_acept:
                 #print("Cadena aceptada.")
                 #print("Cadena aceptada: ", self.cadena_copy)
-                result = self.slr_parse(self.parse_table, self.cadena_copy)
+                #result = self.slr_parse(self.parse_table, self.cadena_copy)
 
-                print("Result parse: ", result)
+                #print("Result parse: ", result)
                 return True, estado_actual
             
             # if estado_actual in estados_acept:
@@ -535,9 +535,9 @@ class SimuladorTxT:
             elif estado_siguiente in estados_acept:
                 #print("Cadena aceptada.")
                 #print("Cadena aceptada: ", self.cadena_copy)
-                result = self.slr_parse(self.parse_table, self.cadena_copy)
+                #result = self.slr_parse(self.parse_table, self.cadena_copy)
 
-                print("Result parse: ", result)
+                #print("Result parse: ", result)
                 return True, estado_actual
         
             else:
@@ -556,9 +556,9 @@ class SimuladorTxT:
                 #print("Cadena aceptada.")
 
                 #print("Cadena aceptada: ", self.cadena_copy)
-                result = self.slr_parse(self.parse_table, self.cadena_copy)
+                #result = self.slr_parse(self.parse_table, self.cadena_copy)
 
-                print("Result parse: ", result)
+                #print("Result parse: ", result)
                 return True, estado_siguiente
 
             if estado_siguiente == {}:
@@ -574,9 +574,9 @@ class SimuladorTxT:
 
 
                 # Mandando esto al slr_parse.
-                result = self.slr_parse(self.parse_table, self.cadena_copy)
+                #result = self.slr_parse(self.parse_table, self.cadena_copy)
 
-                print("Result parse: ", result)
+                #print("Result parse: ", result)
 
                 return True, estado_siguiente
         
