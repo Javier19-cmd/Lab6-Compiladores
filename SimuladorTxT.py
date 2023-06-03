@@ -374,10 +374,22 @@ class SimuladorTxT:
         for clave in self.diccionario_cadenas:
             lista = self.diccionario_cadenas[clave]
 
+            #print("Lista: ", lista, " clave: ", clave)
+
+            # Verificando la forma de la expresión regular, si es un número y fue aceptado alguna vez, entonces se imprime como number.
+            
+            if len(lista) > 1:
+            
+                if lista[3] == True and lista[4] == True:
+
+                    # Imprimiendo la clave como number.
+                    print("Token: " + clave + " type: number")
+
             # Detectando los errores.
             if len(lista) == 1:
                 if lista[0] == True:
-                    print("Operador detectado")
+                    # Imprimiendo el operador detectado.
+                    print("Operador detectado: ", clave)
                 
                 elif lista[0] == False:
                     # Abriendo el archivo para buscar el caracter.
@@ -699,9 +711,9 @@ class SimuladorTxT:
                 yalex = y.read()
 
                 # Jalando los tokens especiales.
-                if "rule tokens =" in yalex:
+                if "rule gettoken =" in yalex:
                     # Extrayendo la cadena de texto que contiene los tokens especiales.
-                    cadena_tokens = yalex[yalex.find("rule tokens ="):]
+                    cadena_tokens = yalex[yalex.find("rule gettoken ="):]
                     # Separando los tokens en una lista.
                     lista_tokens = cadena_tokens.split("|")
                     # Creando el diccionario para guardar los tokens.
@@ -907,6 +919,8 @@ class SimuladorTxT:
                 self.parse_table = parse_table
 
                 print("Parse table: ", self.parse_table)
+
+
     
 
     def slr_parse(self, parse_table, input_token):
